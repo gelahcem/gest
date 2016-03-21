@@ -15,19 +15,39 @@ class UserIdentity extends CUserIdentity
 	 * against some persistent user identity storage (e.g. database).
 	 * @return boolean whether authentication succeeds.
 	 */
+
+	private $_id;
+
 	public function authenticate()
 	{
-		$users=array(
-			// username => password
-			'demo'=>'demo',
-			'admin'=>'admin',
-		);
-		if(!isset($users[$this->username]))
+		$record=risorse::model()->findByAttributes(array('USERNAME'=>$this->username));
+		if($record===null)
+		{
+			$this->_id='user Null';
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		elseif($users[$this->username]!==$this->password)
+		}
+		else if($record->PASSWORD!==$this->password)
+		{        $this->_id=$this->username;
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
+		}
+		else if($record['ACL']==='0')                //  here I check status as Active in db
+		{
+			$err = "You have been Inactive by Admin.";
+			$this->errorCode = $err;
+		}
+
 		else
+		{
+			$this->_id=$record['RUOLO'];
+			$this->setState('role', $record['RUOLO']);
 			$this->errorCode=self::ERROR_NONE;
+
+		}
 		return !$this->errorCode;
+	}
+
+		public function getId()       //  override Id
+	{
+		return $this->_id;
 	}
 }
