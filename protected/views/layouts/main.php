@@ -20,22 +20,59 @@
 
 <body>
 
-<div class="container" id="page">
+<div class="container" id="page" <!--style="width:auto;"-->
 
 	<div id="header">
 		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
 	</div><!-- header -->
 
-	<div id="mainmenu">
-		<?php $this->widget('zii.widgets.CMenu',array(
-			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index'),'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'Back-End', 'url'=>array('/srbac'),'visible'=>!Yii::app()->user->isGuest && Yii::app()->user->checkAccess('admin')),
-				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
-			),
-		)); ?>
-	</div><!-- mainmenu -->
+	<div id="menu">
+		<?php $this->widget('application.extensions.menu.SMenu',
+			array(
+				"menu"=>array(
+					array("url"=>array(
+						"route"=>"/site/index"),
+						"label"=>"Home",
+						'visible'=>!Yii::app()->user->isGuest,
+						'icon'=>'images/home.png'),
+					array("url"=>"",
+						"label"=>"Timesheets",
+						'visible'=>!Yii::app()->user->isGuest,
+						'icon'=>'images/calendar.png',
+						array("url"=>array(
+							"route"=>"/timesheet/admin"),
+							"label"=>"Manage Timesheet",
+							'icon'=>'images/timesheets.gif')),
+					array("url"=>"",
+						"label"=>"Back-End",
+						'visible'=>!Yii::app()->user->isGuest && Yii::app()->user->checkAccess('admin'),
+						'icon'=>'images/settings.png',
+						array("url"=>array(
+							"route"=>"/risorse/admin"),
+							"label"=>"Manage User",
+							'icon'=>'images/userok.png'),
+						array("url"=>array(
+							"route"=>"/srbac"),
+							"label"=>"Manage Role",
+							'icon'=>'images/users.png')),
+					array("url"=>array(
+						"route"=>"/site/login"),
+						"label"=>"login",
+						'visible'=>Yii::app()->user->isGuest,
+						'icon'=>'images/power.png'),
+					array("url"=>array(
+						"route"=>"/site/logout"),
+						"label"=>'Logout ('.Yii::app()->user->name.')',
+						'visible'=>!Yii::app()->user->isGuest,
+						'icon'=>'images/logout.png'),
+				),
+				"stylesheet"=>"menu_white.css",
+				"menuID"=>"myMenu",
+				"delay"=>3
+			)
+		);
+		?>
+	</div><!-- mainmenu --><div></br></br></div>
 	<?php if(isset($this->breadcrumbs)):?>
 		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 			'links'=>$this->breadcrumbs,
@@ -47,9 +84,9 @@
 	<div class="clear"></div>
 
 	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
+		Copyright &copy; <?php echo date('Y'); ?> by NAD s.r.l.<br/>
 		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
+		<p align="right"><font size="0.05"><i>powered by </i></font><img src="/gest/images/nad.jpg"></p>
 	</div><!-- footer -->
 
 </div><!-- page -->

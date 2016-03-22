@@ -36,7 +36,7 @@ return array(
 		'srbac' => array(
 			'userclass'=>'risorse', //default: User
 			'userid'=>'ID', //default: userid
-			'username'=>'IDENTIFICATIVO', //default:username
+			'username'=>'USERNAME', //default:username
 			'delimeter'=>'@', //default:-
 			'debug'=>true, //default :false
 			'pageSize'=>10, // default : 15
