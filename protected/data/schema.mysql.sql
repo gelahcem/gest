@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Creato il: Mar 21, 2016 alle 10:00
+-- Creato il: Mar 22, 2016 alle 10:59
 -- Versione del server: 10.0.23-MariaDB-0ubuntu0.15.10.1
 -- Versione PHP: 5.6.11-1ubuntu3.1
 
@@ -21,6 +21,28 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `gest` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `gest`;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `assignments`
+--
+
+CREATE TABLE `assignments` (
+  `itemname` varchar(64) NOT NULL,
+  `userid` varchar(64) NOT NULL,
+  `bizrule` text,
+  `data` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `assignments`
+--
+
+INSERT INTO `assignments` (`itemname`, `userid`, `bizrule`, `data`) VALUES
+('Administrator', '1', '', 's:0:"";'),
+('Authority', '1', '', 's:0:"";'),
+('User', '1', '', 's:0:"";');
 
 -- --------------------------------------------------------
 
@@ -98,6 +120,61 @@ CREATE TABLE `dettaglisky` (
   `ORE` float DEFAULT NULL,
   `TURNO` varchar(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `itemchildren`
+--
+
+CREATE TABLE `itemchildren` (
+  `parent` varchar(64) NOT NULL,
+  `child` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `itemchildren`
+--
+
+INSERT INTO `itemchildren` (`parent`, `child`) VALUES
+('Administrator', 'User Manager'),
+('Authority', 'User Manager'),
+('User Manager', 'Create User'),
+('User Manager', 'Delete User'),
+('User Manager', 'View User');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `items`
+--
+
+CREATE TABLE `items` (
+  `name` varchar(64) NOT NULL,
+  `type` int(11) NOT NULL,
+  `description` text,
+  `bizrule` text,
+  `data` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `items`
+--
+
+INSERT INTO `items` (`name`, `type`, `description`, `bizrule`, `data`) VALUES
+('Administrator', 2, NULL, NULL, NULL),
+('Authority', 2, NULL, NULL, NULL),
+('Create Post', 0, NULL, NULL, NULL),
+('Create User', 0, NULL, NULL, NULL),
+('Delete Post', 0, NULL, NULL, NULL),
+('Delete User', 0, NULL, NULL, NULL),
+('Edit Post', 0, NULL, NULL, NULL),
+('Edit User', 0, NULL, NULL, NULL),
+('Post Manager', 1, NULL, NULL, NULL),
+('User', 2, NULL, NULL, NULL),
+('User Manager', 1, NULL, NULL, NULL),
+('View Post', 0, NULL, NULL, NULL),
+('View User', 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -251,6 +328,14 @@ CREATE TABLE `risorse` (
   `ACLSKY` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dump dei dati per la tabella `risorse`
+--
+
+INSERT INTO `risorse` (`ID`, `IDENTIFICATIVO`, `NOME`, `COGNOME`, `NOMINATIVO`, `USERNAME`, `PASSWORD`, `RUOLO`, `COSTO`, `ACL`, `MAIL`, `ACLFORTE`, `ACLSKY`) VALUES
+(1, 'R10001', 'admin', 'admin', '', 'admin', 'admin', 'admin', '', '5', 'team@nad.it', 0, NULL),
+(2, 'R10002', 'Carlos', 'Manzo', '', 'manzoc', 'manzoc', 'Tecnico', '', '1', '', 0, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -291,6 +376,30 @@ CREATE TABLE `tbl_migration` (
   `apply_time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dump dei dati per la tabella `tbl_migration`
+--
+
+INSERT INTO `tbl_migration` (`version`, `apply_time`) VALUES
+('m000000_000000_base', 1458549959),
+('m160321_072924_risorse', 1458549959),
+('m160321_072944_attivitasky', 1458549959),
+('m160321_073001_calendario01', 1458549959),
+('m160321_073008_clienti', 1458549959),
+('m160321_073016_commesse', 1458549959),
+('m160321_073031_dettaglisky', 1458549960),
+('m160321_073054_materialeutilizzato', 1458549960),
+('m160321_073101_materiali', 1458549960),
+('m160321_073106_note', 1458549960),
+('m160321_073114_notetimesheet', 1458549960),
+('m160321_073128_notifiche', 1458549960),
+('m160321_073135_planning', 1458549960),
+('m160321_073143_planning_notes', 1458549960),
+('m160321_073153_preventivi', 1458549960),
+('m160321_073206_rubrica', 1458549960),
+('m160321_073213_story', 1458549960),
+('m160321_073219_timesheet', 1458549960);
+
 -- --------------------------------------------------------
 
 --
@@ -326,6 +435,12 @@ CREATE TABLE `timesheet` (
 --
 
 --
+-- Indici per le tabelle `assignments`
+--
+ALTER TABLE `assignments`
+  ADD PRIMARY KEY (`itemname`,`userid`);
+
+--
 -- Indici per le tabelle `attivitasky`
 --
 ALTER TABLE `attivitasky`
@@ -348,6 +463,19 @@ ALTER TABLE `commesse`
 --
 ALTER TABLE `dettaglisky`
   ADD PRIMARY KEY (`ID`);
+
+--
+-- Indici per le tabelle `itemchildren`
+--
+ALTER TABLE `itemchildren`
+  ADD PRIMARY KEY (`parent`,`child`),
+  ADD KEY `child` (`child`);
+
+--
+-- Indici per le tabelle `items`
+--
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`name`);
 
 --
 -- Indici per le tabelle `materialeutilizzato`
@@ -485,7 +613,7 @@ ALTER TABLE `preventivi`
 -- AUTO_INCREMENT per la tabella `risorse`
 --
 ALTER TABLE `risorse`
-  MODIFY `ID` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT per la tabella `story`
 --
@@ -496,6 +624,23 @@ ALTER TABLE `story`
 --
 ALTER TABLE `timesheet`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Limiti per le tabelle scaricate
+--
+
+--
+-- Limiti per la tabella `assignments`
+--
+ALTER TABLE `assignments`
+  ADD CONSTRAINT `assignments_ibfk_1` FOREIGN KEY (`itemname`) REFERENCES `items` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `itemchildren`
+--
+ALTER TABLE `itemchildren`
+  ADD CONSTRAINT `itemchildren_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `items` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `itemchildren_ibfk_2` FOREIGN KEY (`child`) REFERENCES `items` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

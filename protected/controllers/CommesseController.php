@@ -1,16 +1,7 @@
 <?php
 
-class TimesheetController extends Controller
+class CommesseController extends Controller
 {
-    public $datashort;
-    public $lunedisem;
-
-    public function init() {
-        parent::init();
-
-        $this->datashort = date('Y-m-d', strtotime('today'));
-        $this->lunedisem = date('Y-m-d', strtotime('wednesday this week'));//Salva record con questa data
-    }
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -71,16 +62,16 @@ class TimesheetController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Timesheet;
+		$model=new Commesse;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Timesheet']))
+		if(isset($_POST['Commesse']))
 		{
-			$model->attributes=$_POST['Timesheet'];
+			$model->attributes=$_POST['Commesse'];
 			if($model->save())
-				$this->redirect(array('admin'));
+				$this->redirect(array('view','id'=>$model->ID));
 		}
 
 		$this->render('create',array(
@@ -100,11 +91,11 @@ class TimesheetController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Timesheet']))
+		if(isset($_POST['Commesse']))
 		{
-			$model->attributes=$_POST['Timesheet'];
+			$model->attributes=$_POST['Commesse'];
 			if($model->save())
-				$this->redirect(array('admin'));
+				$this->redirect(array('view','id'=>$model->ID));
 		}
 
 		$this->render('update',array(
@@ -131,7 +122,7 @@ class TimesheetController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Timesheet');
+		$dataProvider=new CActiveDataProvider('Commesse');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -142,14 +133,10 @@ class TimesheetController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Timesheet('search');
+		$model=new Commesse('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Timesheet']))
-			$model->attributes=$_GET['Timesheet'];
-
-
-            $model->DATASHORT = date('Y-m-d');
-
+		if(isset($_GET['Commesse']))
+			$model->attributes=$_GET['Commesse'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -160,12 +147,12 @@ class TimesheetController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Timesheet the loaded model
+	 * @return Commesse the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Timesheet::model()->findByPk($id);
+		$model=Commesse::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -173,11 +160,11 @@ class TimesheetController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Timesheet $model the model to be validated
+	 * @param Commesse $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='timesheet-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='commesse-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

@@ -22,7 +22,6 @@
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-		<?php echo $form->hiddenField($model,'DATASHORT',array('value'=>$datashort,'size'=>16,'maxlength'=>16)); ?>
 		<?php
 		echo $form->dropDownList($model, 'IDCOMMESSA', CHtml::listData(Commesse::model()->findAll(), 'IDENTIFICATIVO', 'DESCRIZIONE'),
 			array('empty' => 'selezziona commessa')

@@ -1,7 +1,7 @@
 <?php
 /* @var $this TimesheetController */
 /* @var $model Timesheet */
-
+Yii::import('application.modules.editgrid.*');
 $this->breadcrumbs=array(
 	'Timesheets'=>array('index'),
 	'Manage',
@@ -28,48 +28,48 @@ $('.search-form form').submit(function(){
 
 <h1>Manage Timesheets</h1>
 
-<p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
-
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
-<div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
-	'model'=>$model,
-)); ?>
-</div><!-- search-form -->
-
+<form name="editableGridFormCa" method="post" action="index.php?r=timesheet/create">
+<?php $this->renderPartial('_form',array(
+	'model'=>$model,'datashort'=>$this->lunedisem)); ?>
+</form><!-- search-form -->
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'timesheet-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'columns'=>array(
-		'ID',
-		'ANNO',
-		'MESE',
-		'SETTIMANA',
-		'IDENTIFICATIVO',
-		'DATA',
-		/*
-		'DATASHORT',
-		'RISORSA',
-		'IDCOMMESSA',
-		'ORE',
-		'KM',
-		'AUTO',
-		'PASTO',
-		'DESCRIZIONE',
-		'BLOCCO',
-		'INSERITO',
-		'MODIFICATO',
-		'MODIFICATODA',
-		'IDPREVENTIVO',
-		'SUPERCOMMESSA',
-		'STRAORDINARIO',
-		*/
-		array(
-			'class'=>'CButtonColumn',
-		),
-	),
+    'id'=>'timesheet-grid',
+    'dataProvider'=>$model->search(),
+    'filter'=>$model,
+    'columns'=>array(
+        /*'ID',
+        'ANNO',
+        'MESE',
+        'SETTIMANA',
+        'IDENTIFICATIVO',
+        'DATA',*/
+        'IDCOMMESSA',
+        'DESCRIZIONE',
+        'ORE',
+        /*
+        'DATASHORT',
+        'RISORSA',
+        'IDCOMMESSA',
+        'ORE',
+        'KM',
+        'AUTO',
+        'PASTO',
+        'DESCRIZIONE',
+        'BLOCCO',
+        'INSERITO',
+        'MODIFICATO',
+        'MODIFICATODA',
+        'IDPREVENTIVO',
+        'SUPERCOMMESSA',
+        'STRAORDINARIO',
+        */
+        array(
+            'class'=>'CButtonColumn',
+        ),
+    ),
 )); ?>
+
+
+<!--<form name="editableGridFormA" method="post" action="index.php?r=timesheet/editableGrid">
+	<?php //$this->renderPartial('lunedi', array('model' => $model,'datashort'=>$this->lunedisem)) ?>
+</form>-->

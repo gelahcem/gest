@@ -28,6 +28,8 @@
  */
 class Timesheet extends CActiveRecord
 {
+    public $id;
+    public $datashort=NULL;
 	/**
 	 * @return string the associated database table name
 	 */
