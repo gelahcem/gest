@@ -9,7 +9,8 @@ class TimesheetController extends Controller
         parent::init();
 
         $this->datashort = date('Y-m-d', strtotime('today'));
-        $this->lunedisem = date('Y-m-d', strtotime('wednesday this week'));//Salva record con questa data
+		$this->lunedisem = date('Y-m-d', strtotime('today'));
+        //$this->lunedisem = date('Y-m-d', strtotime('thursday this week'));//Salva record con questa data
     }
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning

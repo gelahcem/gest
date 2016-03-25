@@ -45,6 +45,8 @@ $('.search-form form').submit(function(){
         'DATA',*/
         'IDCOMMESSA',
         'DESCRIZIONE',
+		'AUTO',
+		'PASTO',
         'ORE',
         /*
         'DATASHORT',
